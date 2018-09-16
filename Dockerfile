@@ -4,8 +4,7 @@ WORKDIR /usr/src/smart-brain
 
 COPY ./ ./
 
-# npm config set registry http://registry.npmjs.org/ &&
-RUN  npm install
+RUN npm install
 
 ENV PORT=3001
 ENV API_URL=http://192.168.99.100:3000

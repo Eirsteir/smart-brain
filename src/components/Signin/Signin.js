@@ -18,7 +18,7 @@ class Signin extends React.Component {
   }
 
   onSubmitSignIn = () => {
-    fetch(`http://${process.env.API_URL}/signin`, {
+    fetch(`${process.env.REACT_APP_API_URL || process.env.REACT_APP_API_URL_DOCKER}/signin`, {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -27,9 +27,9 @@ class Signin extends React.Component {
       })
     })
       .then(response => response.json())
-      .then(user => {
-        if (user.id) {
-          this.props.loadUser(user)
+      .then(data => {
+        if (data.userId) {
+          this.props.loadUser(data)
           this.props.onRouteChange('home')
         }
       })
@@ -42,6 +42,7 @@ class Signin extends React.Component {
       <main className="pa4 black-80">
         <div className="measure">
           <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
+          <form>
             <legend className="f1 fw6 ph0 mh0">Sign In</legend>
             <div className="mt3">
               <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
@@ -63,6 +64,7 @@ class Signin extends React.Component {
                 id="password"
               />
             </div>
+          </form>
           </fieldset>
           <div className="">
             <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
