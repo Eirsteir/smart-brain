@@ -86,7 +86,6 @@ class App extends Component {
   }
 
   loadUser = (data) => {
-    console.log(data);
     this.setState({
       user: {
         id: data.id,
@@ -164,6 +163,22 @@ class App extends Component {
       .catch(err => console.log(err))
   }
 
+  onSignout = () => {
+    fetch(`${process.env.REACT_APP_API_URL}/signout`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': window.sessionStorage.getItem('token')
+      }
+    })
+      .then(resp => {
+        if (resp.status === 200 || resp.status === 304) {
+          window.sessionStorage.removeItem('token')
+          return this.setState(initialState) // onRouteChange('signout')
+        }
+      })
+  }
+
   onRouteChange = (route) => {
     if (route === 'signout') {
       return this.setState(initialState)
@@ -188,7 +203,7 @@ class App extends Component {
           className="particles"
           params={particlesOptions}
         />
-        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} toggleModal={this.toggleModal}/>
+        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} toggleModal={this.toggleModal} onSignout={this.onSignout}/>
         { isProfileOpen &&
           <Modal>
             <Profile isProfileOpen={isProfileOpen}  toggleModal={this.toggleModal} user={user} loadUser={this.loadUser}/>
