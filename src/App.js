@@ -174,7 +174,7 @@ class App extends Component {
       .then(resp => {
         if (resp.status === 200 || resp.status === 304) {
           window.sessionStorage.removeItem('token')
-          return this.setState(initialState) // onRouteChange('signout')
+          return this.onRouteChange('signout')
         }
       })
   }
